@@ -47,6 +47,10 @@ source env/bin/activate
 ```
 git clone https://github.com/Andy61490963/Django-Web.git
 ```
+### 更改ip(corsheader用)
+```
+到 Web/settings.py裡面更改CSRF_TRUSTED_ORIGINS = ['http://公有ip','DNS server']
+```
 ### 安裝server環境
 ```
 pip install -r requirements.txt

@@ -1,0 +1,133 @@
+<!-- 根據base.html延伸出來的網頁 -->
+{% extends 'base.html' %} 
+<!-- 用以區分界線的模塊，content是這個模塊的命名，跟base的 block content 有對應關係 -->
+{% block content %}
+	
+<!-- <span style="font-family:monospace; font-size:30px;">Information</span> -->
+
+<!-- Information -->
+<!-- for info in info1,that info1 is called by info1 = p.get_page(page) -->
+{% for info in info1 %}
+
+<div class="card px-lg-3 py-3 py-lg-4">
+  <div class="card-header ">
+    <span style="font-family:monospace; font-size:25px; font-weight: 200;">{{ info }}</span>
+  </div>
+  <div class="card-body">
+    <div class="card-title"><font face="Verdana" style="font-weight: 200;">Introduction: {{ info.introduction }}</font></div>
+    <div class="card-title"><font face="Verdana" style="font-weight: 200;">Recent_events: {{ info.recent_events }}</font></div>
+    <div class="card-title"><font face="Verdana" style="font-weight: 200;">Autobiography: {{ info.autobiography }}</font></div>
+    <div class="card-title"><font face="Verdana" style="font-weight: 200;">Refresh_date: {{ info.refresh_date }}</font></div>
+    <br/>
+    {% if info.image %}
+    <img src="{{ info.image.url }}" style="height: auto ; max-width: 100% ;" />
+    <br/><br/>
+    {% endif %}
+    
+  </div>
+
+
+<br/>
+
+{% endfor %}
+<br/><br/>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+
+    {% if info1.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{ info1.previous_page_number }}">Previous</a></li>	
+    {% endif %}
+
+    {% for i in nums %}
+      <li class="page-item">
+        <a class="page-link {% if info1.number == forloop.counter %}active{% endif %}" href="?page={{ forloop.counter }}">
+          {{ forloop.counter }}
+        </a>
+      </li>
+    {% endfor %}
+    
+    {% if info1.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ info1.next_page_number }}">Next</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ info1.paginator.num_pages }}">Last &raquo;</a>
+      </li>	
+    {% endif %}
+    
+  </ul>
+</nav>
+
+<style>
+.pagination {
+  position: relative;
+  perspective: 1000px;
+}
+
+.page-item {
+  display: inline-block;
+  margin-right: 10px;
+  transition: all 0.5s; /* 添加過渡效果 */
+}
+
+.page-item.active {
+  transform: scale(1.2); /* 改變大小 */
+}
+
+.page-link {
+  display: block;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  color: #333;
+  border-radius: 15%;
+}
+
+.page-link:hover {
+  background-color: #f5f5f5;
+  transform: scale(1.1);  /* 滑鼠懸停時增加大小 */
+}
+
+.card {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #dee5ec;
+  border-bottom: none;
+}
+
+.card-title {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-body a.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  font-size: 16px;
+  color: #777;
+}
+
+.card-body a.btn:hover {
+  background-color: #f5f5f5;
+}
+
+</style>  
+
+</div>
+{% endblock %}

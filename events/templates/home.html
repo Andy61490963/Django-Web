@@ -1,0 +1,214 @@
+{% extends 'base.html' %} <!-- 根據base.html延伸出來的網頁 -->
+
+{% block content %}
+	<!-- 主頁面現在的時間 -->
+	<div class="top-block">
+		<center>
+			<blockquote onmouseover="showMessage()" class="card">
+			</br>
+				<h1 class="card-title" style="font-family: 'Arial', sans-serif;">Now is {{ time }}</h1>
+				<h2 class="card-subtitle" style="font-family: 'Arial', sans-serif;">enjoy your day</h2>
+				<footer style="font-family: 'Arial', sans-serif;">
+					Welcome to Sentimental1's web :)
+				</footer>
+			</blockquote>
+		</center>
+	</div>
+
+	{% for post in post1 %}
+	<div class="bottom-block">
+		<center>
+			<blockquote class="card">
+				<!-- 定義一個帖子預覽的區塊 -->
+				<div class="post-preview"> 
+					<!-- 帖子標題的連結，連結到 post 物件的 website 屬性 -->
+					<a href="{{ post.website }}"> 
+						<!-- 帖子的標題 -->
+						<h2 class="post-title" style="font-family: 'Arial', sans-serif;">{{ post.postname }}</h2>
+					</br>
+					</a>
+					<a>	
+						<!-- 帖子的副標題 -->
+						<h3 class="post-subtitle" style="font-family: 'Arial', sans-serif;">{{ post.introduction|linebreaksbr }}</h3>
+					</a>
+					<!-- 插入一個斷行 -->
+					<br/> 
+					<p class="post-meta" style="font-family: 'Arial', sans-serif;">
+						<!-- 連結到 all_infos 的網址，顯示帖子的作者 -->
+						Posted by <a href="{% url 'all_infos' %}">{{ post.ownerid }}</a> on {{ post.post_date }}
+					</p>
+				</div>
+			</blockquote>
+		</center>
+	</div>
+	{% endfor %}
+	
+	<hr class="Divider">
+	<div class="d-flex justify-content-end mb-4">
+		<a class="btn btn-primary text-uppercase" href="{% url 'add-homepost' %}" id="post-button">我要發文 →</a>
+	</div>
+
+
+
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+	  
+		  {% if post1.has_previous %}
+			<li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+			<li class="page-item"><a class="page-link" href="?page={{ post1.previous_page_number }}">Previous</a></li>	
+		  {% endif %}
+	  
+		  {% for i in nums %}
+			<li class="page-item">
+			  <a class="page-link {% if post1.number == forloop.counter %}active{% endif %}" href="?page={{ forloop.counter }}">
+				{{ forloop.counter }}
+			  </a>
+			</li>
+		  {% endfor %}
+		  
+		  {% if post1.has_next %}
+			<li class="page-item">
+			  <a class="page-link" href="?page={{ post1.next_page_number }}">Next</a>
+			</li>
+			<li class="page-item">
+			  <a class="page-link" href="?page={{ post1.paginator.num_pages }}">Last &raquo;</a>
+			</li>	
+		  {% endif %}
+		  
+		</ul>
+	  </nav>
+
+	  <style>
+		.pagination {
+			position: relative;
+			perspective: 1000px;
+		}
+		
+		.page-item {
+			display: inline-block;
+			margin-right: 10px;
+			transition: all 0.5s; /* 添加過渡效果 */
+		}
+		
+		.page-item.active {
+			transform: scale(1.2); /* 改變大小 */
+		}
+		
+		.page-link {
+			display: block;
+			padding: 5px 10px;
+			border: 1px solid #ccc;
+			text-decoration: none;
+			color: #333;
+			border-radius: 15%;
+		}
+		
+		.page-link:hover {
+			background-color: #f5f5f5;
+			transform: scale(1.1);  /* 滑鼠懸停時增加大小 */
+		}
+
+
+		body {
+			background-color: #F5F5F5;
+			font-family: 'Arial', sans-serif;
+		}
+
+		.top-block blockquote {
+			text-align: center;
+			padding: 20px;
+			background-color: #FFFFFF;
+			border-radius: 15px;
+			box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+			animation: float 2s ease-in-out infinite;
+		}
+
+		@keyframes float {
+			0% {
+				transform: translateY(0);
+			}
+			50% {
+				transform: translateY(-10px);
+			}
+			100% {
+				transform: translateY(0);
+			}
+		}
+
+		.top-block blockquote footer {
+			margin-top: 20px;
+			color: #e195eb;
+			font-style: italic;
+			
+		}
+
+		@keyframes blink {
+			0% {
+				opacity: 1;
+			}
+			50% {
+				opacity: 0;
+			}
+			100% {
+				opacity: 1;
+			}
+		}
+
+		.bottom-block blockquote {
+			background-color: #f7f7f7;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			padding: 5px;
+			text-align: center;
+			transition: transform 0.3s;
+		}
+
+		.bottom-block .post-title {
+			font-size: 28px;
+			margin-bottom: 10px;
+			color: #333;
+			transition: all 0.3s;
+		}
+
+		.bottom-block .post-subtitle {
+			font-size: 20px;
+			margin-bottom: 10px;
+			color: #333;
+			transition: all 0.3s;
+		}
+
+		.bottom-block .post-title:hover {
+			color: #007bff;
+			transform: scale(1.1);
+		}
+	</style>
+
+	<!-- 動畫懸停效果 -->
+	<!--<script>
+		var messageShown = false;
+
+		function showMessage() {
+			if (!messageShown) {
+				alert("Hi 艾莉雅");
+				messageShown = true;
+			}
+		}
+	</script>-->
+	<!-- 點擊事件 -->
+	<script>
+		// 獲取按鈕元素
+		var postButton = document.getElementById('post-button');
+	  
+		// 添加點擊事件監聽器
+		postButton.addEventListener('click', function() {
+			// 檢查用戶是否已登入
+			if (user.isAuthenticated) {
+				// 如果已登入，執行發文操作
+				// 在這裡添加相應的代碼以執行發文操作
+			} else {
+				// 如果未登入，顯示提示信息
+				alert('請登入再繼續');
+			}
+		});
+	</script>
+{% endblock %}

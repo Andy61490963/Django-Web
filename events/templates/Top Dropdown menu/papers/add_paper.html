@@ -1,0 +1,76 @@
+{% extends 'base.html' %} <!-- 根據base.html延伸出來的網頁 -->
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<div class="container" style="max-width: 800px; margin: 0 auto; padding: 20 px; background-color: #f8f8f8; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="message-container">
+                <div class="message">Create Paper</div>
+                {% if submitted %}		
+                <div class="message" style="font-size: 20px;">Your paper was submitted succefully!!</div>
+            </br></br>
+                <a href="{% url 'all_papers' %}" class="btn btn-primary">Back paper</a>
+                {% else %}
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Update" 
+                    class="btn btn-secondary">
+                    
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</br>
+</div>
+
+<br/><br/>
+{% else %}	
+<div class="container" style="max-width: 800px; margin: 0 auto; padding: 20 px; background-color: #f8f8f8; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="message-container">
+                <div class="message">Sorry! You must be logged in to view this page.</div>
+                <a href="{% url 'login' %}" class="login-link">Login here</a>
+            </div>
+        </div>
+    </div>
+</br>
+</div>
+  
+	
+{% endif %}
+<style>
+	body {
+	  background-color: #F5F5F5;
+	  font-family: 'Arial', sans-serif;
+	}
+  
+	.message-container {
+	  text-align: center;
+	  margin-top: 50px;
+	}
+  
+	.message {
+	  font-size: 24px;
+	  font-family: monospace;
+	  color: #333;
+	  margin-bottom: 20px;
+	}
+  
+	.login-link {
+	  font-size: 18px;
+	  font-family: monospace;
+	  color: #007bff;
+	  text-decoration: none;
+	}
+  
+	.login-link:hover {
+	  text-decoration: underline;
+	}
+  </style>
+  
+{% endblock %}

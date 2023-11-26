@@ -1,0 +1,73 @@
+{% extends 'base.html' %} <!-- 根據base.html延伸出來的網頁 -->
+
+<!-- 添加自訂的 CSS -->
+<style>
+body {
+    font-family: Arial, sans-serif; /* 使用 Arial 字體 */
+    background-color: #f8f8f8; /* 設定背景色 */
+}
+
+.container {
+    background-color: #ffffff; /* 設定容器背景色 */
+    border-radius: 5px; /* 設定容器圓角 */
+    padding: 20px; /* 設定容器內間距 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* 設定容器陰影效果 */
+}
+
+h1 {
+    color: #333333; /* 設定標題文字顏色 */
+    margin-bottom: 20px; /* 設定標題底部間距 */
+}
+
+.list-group-item {
+    background-color: #ffffff; /* 設定列表項目背景色 */
+    border: none; /* 移除列表項目邊框 */
+    padding: 10px; /* 設定列表項目內間距 */
+    margin-bottom: 10px; /* 設定列表項目底部間距 */
+}
+
+.list-group-item a {
+    color: #007bff; /* 設定連結文字顏色 */
+    text-decoration: none; /* 移除連結下劃線 */
+}
+
+.list-group-item a:hover {
+    text-decoration: underline; /* 滑鼠移過時顯示下劃線 */
+}
+</style>
+
+{% block content %}
+<div class="container mt-5">
+	<div class="row justify-content-center">
+		<div class="col-md-8">
+			{% if searched %}
+				<h1 class="text-center">Your search for "{{ searched }}"</h1>
+				<hr/>
+				<div class="list-group">
+					{% for information in informations %}
+						<a href="{% url 'show-information' information.id %}" class="list-group-item">
+							<!-- url斷掉會有Bug -->
+							{{ information }}
+						</a>
+					{% endfor %}
+				</div>
+			{% else %}
+				<div class="alert alert-danger" role="alert">
+					<h1 class="text-center">Blank search is not available...</h1>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<!-- 添加 Javascript 警告 -->
+<script>
+window.onload = function() {
+    let searched = '{{searched}}'; // Django 变量
+    if (searched.trim() === "") {
+        alert("搜索欄位不能為空！");
+    }
+}
+</script>
+
+{% endblock %}

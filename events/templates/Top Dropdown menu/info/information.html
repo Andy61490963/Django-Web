@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    .card {
+        background-color: #f8f9fa;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        margin-bottom: 25px;
+        padding: 20px;
+        border-radius: 5px;
+    }
+
+    .card a {
+        text-decoration: none;
+        color: black;
+    }
+
+    
+    .actions {
+        text-align: right;
+    }
+
+    .btn {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        color: #fff;
+    }
+
+    .btn-update {
+        background-color: #8cb7e5;
+    }
+
+    .btn-delete {
+        background-color: #e76e7a;
+    }
+
+    .btn-login {
+        display: block;
+        width: 100px;
+        margin: 20px auto;
+        background-color: #8cb7e5;
+    }
+
+    body {
+	  background-color: #F5F5F5;
+	  font-family: 'Arial', sans-serif;
+	}
+  
+	.message-container {
+	  text-align: center;
+	  margin-top: 50px;
+	}
+  
+	.message {
+	  font-size: 24px;
+	  font-family: monospace;
+	  color: #333;
+	  margin-bottom: 20px;
+	}
+  
+	.login-link {
+	  font-size: 18px;
+	  font-family: monospace;
+	  color: #007bff;
+	  text-decoration: none;
+	}
+  
+	.login-link:hover {
+	  text-decoration: underline;
+	}
+</style>
+
+{% if user.is_authenticated %}
+    <div class="container">
+        
+        {% for infoname in infoname_list %}
+        <div class="card">
+            <a href="{% url 'show-information' infoname.id %}">
+                {{ infoname }}
+            </a> 
+            <div class="actions">
+                <a href="{% url 'update-information' infoname.id %}"
+                class="btn btn-update">Update
+                </a>
+
+                {% if user.get_username == infoname.name %}      
+                <a href="{% url 'delete-information' infoname.id %}"
+                class="btn btn-delete">Delete
+                </a> 
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}    
+<div class="container" style="max-width: 800px; margin: 0 auto; padding: 20 px; background-color: #f8f8f8; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="message-container">
+                <div class="message">Sorry! You must be logged in to view this page.</div>
+                <a href="{% url 'login' %}" class="login-link">Login here</a>
+            </div>
+        </div>
+    </div>
+</br>
+</div>
+{% endif %}
+
+{% endblock %}

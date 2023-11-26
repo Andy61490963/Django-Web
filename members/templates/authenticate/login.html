@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load socialaccount %}
+
+<style>
+  .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+  .button1 {
+    background-color: #ADADAD;
+    color: black;
+  } /* Gray */
+
+  .card {
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+  }
+
+  .card:hover {
+    transform: scale(1.03);
+  }
+
+  .card-title {
+    font-size: 50px;
+  }
+
+  .card-subtitle {
+    font-size: 18px;
+  }
+
+  .card-link {
+    margin-top: 10px;
+  }
+
+  .card-text {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #555;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  .form-group input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+
+  .form-group input[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+</style>
+
+<div class="card">
+  <div class="card-body">
+    <div class="card-title" style="font-family: 'Arial', sans-serif;">Login</div>
+
+    </br>
+
+    <p class="card-text">No account? => <a href="{% url 'register-user' %}" style="color:red; text-decoration:underline;">Register here</a></p>
+    <p class="card-text">Login with => <a href="{% provider_login_url 'github' %}" class="button button1 card-link">Github</a></p>
+  </div>
+  <div class="card-body">
+    <form action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% if error_message %}
+      <div class="error-message">{{ error_message }}</div>
+      {% endif %}
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" name="username" id="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" id="password" required>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Login" class="btn btn-primary">
+      </div>
+    </form>
+  </div>
+</div>
+</br>
+{% endblock %}

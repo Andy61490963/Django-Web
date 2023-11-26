@@ -1,0 +1,74 @@
+{% extends 'base.html' %} <!-- 根据base.html延伸出来的网页 -->
+
+{% block content %} <!-- 用以区分界线的模块，content是这个模块的命名，跟base的 block content 有对应关系 -->
+<!-- article -->	
+
+<div class="row">
+	{% for wherefrom in wherefroms %}
+	<div class="card px-lg-3 py-3 py-lg-4">
+	  <div class="card-header ">
+		  <div class="container-fluid">    
+			  <div class="row content">
+				<div class="col-sm-11 text-left"> 
+					<br/>
+					<span style="font-family:monospace; font-size:30px;">{{ wherefrom }}</span>
+					<hr>
+					<!-- 換行用的linebreaksbr -->
+					<p>{{ wherefrom.content|linebreaksbr }}</p>
+				</div>
+			  </div>
+		  </div>
+	  </div>
+	  <div class="card-body">
+		<br/>
+		{% if wherefrom.image %}
+		<img src="{{ wherefrom.image.url }}" style="height: auto ; max-width: 100% ;" />
+		<br/><br/>
+		{% endif %}
+	  </div>
+	</div>
+<br/>
+	{% endfor %}
+</div>
+
+<br/>
+
+<!--
+<div class="card" style="width: 18rem;">
+	{% if aboutus.image %}
+  <img src="{{ aboutus.image.url }}" width=500 class="card-img-top" alt="...">
+	{% endif %}	
+  <div class="card-body">
+    <h5 class="card-title">{{ aboutus }}</h5>
+    <p class="card-text">{{ aboutus.content }}</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+-->
+
+{% endblock %}
+
+<!-- 添加以下 JavaScript 代码 -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // 监听下拉菜单的点击事件
+    $('#dropdown').change(function() {
+      // 发送 Ajax 请求获取选中菜单项的内容数据
+      var selectedOption = $(this).val();
+      $.ajax({
+        url: '/get_dropdown_content/',
+        method: 'GET',
+        data: { option: selectedOption },
+        success: function(response) {
+          // 将获取的内容数据插入到页面中的相应位置
+          $('#dropdown-content').html(response.content);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+          console.log('Error:', errorThrown);
+        }
+      });
+    });
+  });
+</script>

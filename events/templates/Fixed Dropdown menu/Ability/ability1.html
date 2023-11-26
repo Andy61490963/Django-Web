@@ -1,0 +1,59 @@
+{% extends 'base.html' %} <!-- 根據base.html延伸出來的網頁 -->
+
+{% block content %} <!-- 用以區分界線的模塊，content是這個模塊的命名，跟base的 block content 有對應關係 -->
+<!-- article -->	
+
+
+<div class="row">
+	{% for Ability in Abilitys1 %}
+	<div class="card px-lg-3 py-3 py-lg-4">
+	  <div class="card-header ">
+		  <div class="container-fluid">    
+			  <div class="row content">
+				<div class="col-sm-11 text-left"> 
+					<br/>
+					<span style="font-family:monospace; font-size:30px;">{{ Ability }}</span>
+					<hr>
+					<!-- 換行用的linebreaksbr -->
+					<p> {% for word in Ability.content.split %}
+						{% if word|slice:"0:4" == "http" %}
+						  <a href="{{ word }}">{{ word }}</a>
+						{% else %}
+						  {{ word }}
+						{% endif %}
+						{% if not forloop.last %}
+						  <br/>
+						{% endif %}
+					  {% endfor %}</p>
+				</div>
+			  </div>
+		  </div>
+	  </div>
+	  <div class="card-body">
+		<br/>
+		{% if Ability.image %}
+		<img src="{{ Ability.image.url }}" style="height: auto ; max-width: 100% ;" />
+		<br/><br/>
+		{% endif %}
+	  </div>
+	</div>
+<br/>
+	{% endfor %}
+</div>
+
+<br/>
+
+<!--
+<div class="card" style="width: 18rem;">
+	{% if aboutus.image %}
+  <img src="{{ aboutus.image.url }}" width=500 class="card-img-top" alt="...">
+	{% endif %}	
+  <div class="card-body">
+    <h5 class="card-title">{{ aboutus }}</h5>
+    <p class="card-text">{{ aboutus.content }}</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+-->
+
+{% endblock %}

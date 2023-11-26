@@ -1,0 +1,105 @@
+{% extends 'base.html' %} <!-- 根據base.html延伸出來的網頁 -->
+
+{% block content %} <!-- 用以區分界線的模塊，content是這個模塊的命名，跟base的 block content 有對應關係 -->
+<!-- Paper -->
+<!-- for info in papers1,that papers1 is called by views's papers1 = p.get_page(page) -->
+{% for paper in papers1 %}
+<div class="card px-lg-3 py-3 py-lg-4">
+	<div class="card-header ">
+		<div class="container-fluid">    
+			<div class="row content">
+			  <div class="col-sm-11 text-left"> 
+				<br/>
+				<span style="font-family:monospace; font-size:30px;">{{ paper }}</span>
+				<hr>
+				<p>{{ paper.papercontent }}</p>
+			  </div>
+			</div>
+		</div>
+	</div>
+	<div class="card-body">
+  	<br/>
+		{% if paper.image %}
+        <img src="{{ paper.image.url }}" style=" height: auto; max-width: 100%;" />
+	<br/><br/>
+	{% endif %}
+	<!--<a href="https://paperswithcode.com/paper/robust-speech-recognition-via-large-scale" class="btn btn-primary" style="background-color:#9D9D9D"><font face="微軟正黑體">Relevant data</font></a>-->
+	</div>
+
+<!--
+<div class="card" style="width: 18rem;">
+	{% if paper.image %}
+  <img src="{{ paper.image.url }}" width=500 class="card-img-top" alt="...">
+	{% endif %}	
+  <div class="card-body">
+    <h5 class="card-title">{{ paper }}</h5>
+    <p class="card-text">{{ paper.papercontent }}</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+-->
+
+{% endfor %}
+<br/><br/>
+
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+  
+	{% if papers1.has_previous %}
+		<li class="page-item"><a class="page-link" href="?page1">&laquo First</a></li>
+		<li class="page-item"><a class="page-link" href="?page={{ papers1.previous_page_number }}">						 
+		previous</a></li>	
+	{% endif %}
+
+	{% for i in nums %}
+	   <li class="page-item">
+		<a class="page-link" href="?page={{ forloop.counter }}">
+		{{ forloop.counter }}</a></li>
+	{% endfor %}
+	
+	{% if papers1.has_next %}
+		<li class="page-item">
+		<a class="page-link" href="?page={{ papers1.next_page_number }}">
+		next</a></li>
+		<li class="page-item">
+		<a class="page-link" href="?page={{ papers1.paginator.num_pages }}">
+		Last &raquo </a></li>	
+	{% endif %}
+	
+  </ul>
+</nav>
+
+<style>
+.pagination {
+  position: relative;
+  perspective: 1000px;
+}
+
+.page-item {
+  display: inline-block;
+  margin-right: 10px;
+  transition: all 0.5s; /* 添加過渡效果 */
+}
+
+.page-item.active {
+  transform: scale(1.2); /* 改變大小 */
+}
+
+.page-link {
+  display: block;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  color: #333;
+  border-radius: 15%;
+}
+
+.page-link:hover {
+  background-color: #f5f5f5;
+  transform: scale(1.1);  /* 滑鼠懸停時增加大小 */
+}
+</style>	
+
+</div>
+{% endblock %}

@@ -1,6 +1,5 @@
 # Django Web server
 學習Django framework時寫的小程式
-網站存活點 http://13.114.71.161
 
 # 使用規則
 * 可以複製此檔案至自己要開發個人形象網站
